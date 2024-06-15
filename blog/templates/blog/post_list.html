@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'blog/base.html' %}
+    {% block title %}ASHFAQ'S BLOG{% endblock %}
+</head>
+<body>
+    {% block content %}
+        <h1>ASHFAQ's Blog</h1>
+        <p><a href="{% url 'post_create' %}">Add a new post</a></p>
+        {% for post in post_list %}
+            <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+            <p>Tags: {{ post.tags.all|join:", " }}</p>
+            <p id="date">Published on {{ post.publish }} by {{ post.author|title }}</p>
+            {{ post.body|truncatewords:30|linebreaks }}
+        {% endfor %}
+        {% include 'blog/pagination.html' with page=post_list %}
+    {% endblock %}
+</body>
+</html>
